@@ -1,0 +1,43 @@
+{
+  "name": "ml-savitzky-golay",
+  "version": "1.0.0",
+  "description": "Savitzky–Golay filter in Javascript",
+  "main": "src/index.js",
+  "directories": {
+    "lib": "src",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --require should --reporter mocha-better-spec-reporter --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mljs/savitzky-golay"
+  },
+  "keywords": [
+    "signal",
+    "filtering",
+    "transformation",
+    "savitzky",
+    "Golay",
+    "derivative"
+  ],
+  "author": {
+    "name": "Miguel Asencio",
+    "email": "maasencioh@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mljs/savitzky-golay/issues"
+  },
+  "homepage": "https://github.com/mljs/savitzky-golay",
+  "devDependencies": {
+    "mocha": "latest",
+    "mocha-better-spec-reporter": "latest",
+    "should": "latest"
+  },
+  "dependencies": {
+    "extend": "^3.0.0",
+    "ml-stat":"1.1.0"
+  }
+}
