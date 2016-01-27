@@ -32,7 +32,15 @@ function SavitzkyGolay(data, h, options) {
     var np = data.length;
     var ans = new Array(np);
     var weights = fullWeights(windowSize,options.polynomial,options.derivative);
-    var hs = Math.pow(h,options.derivative);
+    var hs = 0;
+    var constantH = true;
+    if( Object.prototype.toString.call( h ) === '[object Array]' ) {
+        constantH = false;
+    }
+    else{
+        hs = Math.pow(h, options.derivative);
+    }
+    //console.log("Constant h: "+constantH);
     //For the borders
     for(var i=0;i<half;i++){
         var wg1=weights[half-i-1];
@@ -42,8 +50,16 @@ function SavitzkyGolay(data, h, options) {
             d1 += wg1[l] * data[l];
             d2 += wg2[l] * data[np-windowSize+l-1];
         }
-        ans[half-i-1] = d1/hs;
-        ans[np-half+i] = d2/hs;
+        if(constantH){
+            ans[half-i-1] = d1/hs;
+            ans[np-half+i] = d2/hs;
+        }
+        else{
+            hs = getHs(h,half-i-1,half, options.derivative);
+            ans[half-i-1] = d1/hs;
+            hs = getHs(h,np-half+i,half, options.derivative);
+            ans[np-half+i] = d2/hs;
+        }
     }
     //For the internal points
     var wg = weights[half];
@@ -51,9 +67,23 @@ function SavitzkyGolay(data, h, options) {
         var d = 0;
         for (var l = 0; l < windowSize; l++)
             d += wg[l] * data[l+i-windowSize];
+        if(!constantH)
+            hs = getHs(h,i-half-1,half, options.derivative);
         ans[i-half-1] = d/hs;
     }
     return ans;
+}
+
+function getHs(h,center,half,derivative){
+    var hs = 0;
+    var count = 0;
+    for(var i=center-half;i<center+half;i++){
+        if(i>=0 && i < h.length-1){
+            hs+= (h[i+1]-h[i]);
+            count++;
+        }
+    }
+    return Math.pow(hs/count,derivative);
 }
 
 function GramPoly(i,m,k,s){

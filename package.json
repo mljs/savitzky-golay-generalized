@@ -1,5 +1,5 @@
 {
-  "name": "ml-savitzky-golay",
+  "name": "ml-savitzky-golay-generalized",
   "version": "1.0.0",
   "description": "Savitzky–Golay filter in Javascript",
   "main": "src/index.js",
