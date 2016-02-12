@@ -8,12 +8,12 @@ I'll try an automatic parameter tunning based on the SNR or in the entropy of th
 
 ## Examples
 
-´´´
+```js
 var SG = require("savitzky-golay-generalized");
-´´´
+```
 
 ### Smoothing example
-´´´
+```js
 var options = {
             windowSize: 15,
             derivative: 0,
@@ -26,11 +26,11 @@ for (var i = 0; i < data.length; i++)
      data[i] = Math.sin(i*Math.PI*2/data.length)+(Math.random()-0.5)*noiseLevel;
 var ans = SG(data, Math.PI*2/data.length, options);
 console.log(ans);
-´´´
+```
 
 ### First derivative test (Equally spaced x)
 
-´´´
+```js
 var options = {
     windowSize: 47,
     derivative: 1,
@@ -44,11 +44,11 @@ for (var i = 0; i < data.length; i++)
 var ans = SG(data, Math.PI*2/data.length, options);
 console.log(ans);
 
-´´´
+```
 
 ### First derivative test x as vector(It could be non-equally spaced!!)
 
-´´
+```js
 var options = {
             windowSize: 47,
             derivative: 1,
@@ -74,4 +74,4 @@ for (var j = Math.round(options.windowSize/2); j < data.length-Math.round(option
     ans[j].should.be.approximately(ans2[j], 10e-10);
  }
 */
-´´´
+```
