@@ -9,7 +9,7 @@ I'll try an automatic parameter tunning based on the SNR or in the entropy of th
 ## Examples
 
 ```js
-var SG = require("savitzky-golay-generalized");
+var SG = require("ml-savitzky-golay-generalized");
 ```
 
 ### Smoothing example
