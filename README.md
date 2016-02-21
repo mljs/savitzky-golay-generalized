@@ -5,6 +5,27 @@ Pretty much the same as the savitzky-golay method, but without border problems, 
 It can be maybe merged into the savitzky-golay project but by the now this is the version used in the last GSD project.
 
 I'll try an automatic parameter tunning based on the SNR or in the entropy of the signal.
+#Usage
+```js
+npm i ml-savitzky-golay-generalized
+const SG = var SG = require("ml-savitzky-golay-generalized");
+SG(dataY, deltaX|X, options)
+```
+##Parameters
+### dataY
+The data to be filtered. [1,2,4,8,16,32]
+
+###deltaX | X
+deltaX specifies the difference between 2 consecutive points of the independent: deltaX = X[i+1] - X[i]. Specficiying a deltaX suppose that all your points are equally spaced on the independent variable.
+If your points are not equally spaced in the ordinate variable, then you have to provide explicitelly your X values. The algorithm will use the average deltaX within each bin of 'windowSize' points to approximate the derivatives. This fast approximation only works if the X is almost locally equally spaced.
+
+###options
+####windowSize: 
+The odd number of points to approximate the regresion polynomial. Default 9
+####derivative: 
+The grade of the derivative. 0 by defualt(Smoothing)
+####polynomial: 
+The order of the regresion polynomial. Default 3
 
 ## Examples
 
