@@ -3,9 +3,9 @@ var extend = require('extend');
 var stat = require('ml-stat');
 
 var defaultOptions = {
-    windowSize: 11,
+    windowSize: 9,
     derivative: 0,
-    polynomial: 2,
+    polynomial: 3,
 };
 
 
