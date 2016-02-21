@@ -13,7 +13,7 @@ SG(dataY, deltaX|X, options)
 ```
 ##Parameters
 ### dataY
-The data to be filtered. [1,2,4,8,16,32]
+The data to be filtered.
 
 ###deltaX | X
 deltaX specifies the difference between 2 consecutive points of the independent: deltaX = X[i+1] - X[i]. Specficiying a deltaX suppose that all your points are equally spaced on the independent variable.
