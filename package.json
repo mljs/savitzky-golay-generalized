@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "extend": "^3.0.0",
-    "ml-stat":"1.1.0"
+    "ml-stat":"1.3.3"
   }
 }
