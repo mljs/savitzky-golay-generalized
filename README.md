@@ -53,7 +53,7 @@ console.log(ans);
 
 ```js
 var options = {
-    windowSize: 47,
+    windowSize: 45,
     derivative: 1,
     polynomial: 3
     };
