@@ -24,21 +24,21 @@ The data to be filtered.
 ### deltaX | X
 
 deltaX specifies the difference between 2 consecutive points of the independent: deltaX = X[i+1] - X[i]. Specficiying a deltaX suppose that all your points are equally spaced on the independent variable.
-If your points are not equally spaced in the ordinate variable, then you have to provide explicitelly your X values. The algorithm will use the average deltaX within each bin of 'windowSize' points to approximate the derivatives. This fast approximation only works if the X is almost locally equally spaced.
+If your points are not equally spaced in the ordinate variable, then you have to provide explicitly your X values. The algorithm will use the average deltaX within each bin of 'windowSize' points to approximate the derivatives. This fast approximation only works if the X is almost locally equally spaced.
 
 ### options
 
 #### windowSize:
 
-The odd number of points to approximate the regresion polynomial. Default 9
+The odd number of points to approximate the regression polynomial. Default 9
 
 #### derivative:
 
-The grade of the derivative. 0 by defualt(Smoothing)
+The grade of the derivative. 0 by default (Smoothing)
 
 #### polynomial:
 
-The order of the regresion polynomial. Default 3
+The order of the regression polynomial. Default 3
 
 ## Examples
 
