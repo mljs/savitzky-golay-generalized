@@ -1,3 +1,12 @@
+# [2.0.0](https://github.com/mljs/savitzky-golay-generalized/compare/v1.1.1...v2.0.0) (2020-02-26)
+
+
+### Bug Fixes
+
+* spelling ([aa11ca3](https://github.com/mljs/savitzky-golay-generalized/commit/aa11ca304fc307619b1e7f3cb978e68ea4caa9a5))
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/mljs/savitzky-golay-generalized/compare/v1.0.4...v1.1.1) (2017-07-24)
 
