@@ -1,47 +1,49 @@
 export default function SavitzkyGolay(data, h, options = {}) {
-  let { windowSize = 9, polynomial = 3 };
+  let { windowSize = 9, derivative = 0, polynomial = 3 } = options;
 
-  if (windowSize % 2 === 0 || windowSize < 5 || !Number.isInteger(windowSize))
+  if (windowSize % 2 === 0 || windowSize < 5 || !Number.isInteger(windowSize)) {
     throw new RangeError(
-      "Invalid window size (should be odd and at least 5 integer number)"
+      'Invalid window size (should be odd and at least 5 integer number)',
     );
-
-  if (windowSize > data.length)
+  }
+  if (windowSize > data.length) {
     throw new RangeError(
-      "Window size is higher than the data length " +
-        windowSize +
-        ">" +
-        data.length
+      `Window size is higher than the data length ${windowSize}>${data.length}`,
     );
-  if (derivative < 0 || !Number.isInteger(derivative))
-    throw new RangeError("Derivative should be a positive integer");
-  if (polynomial < 1 || !Number.isInteger(polynomial))
-    throw new RangeError("Polynomial should be a positive integer");
-  if (polynomial >= 6)
+  }
+  if (derivative < 0 || !Number.isInteger(derivative)) {
+    throw new RangeError('Derivative should be a positive integer');
+  }
+  if (polynomial < 1 || !Number.isInteger(polynomial)) {
+    throw new RangeError('Polynomial should be a positive integer');
+  }
+  if (polynomial >= 6) {
+    // eslint-disable-next-line no-console
     console.warn(
-      "You should not use polynomial grade higher than 5 if you are" +
-        " not sure that your data arises from such a model. Possible polynomial oscillation problems"
+      'You should not use polynomial grade higher than 5 if you are' +
+        ' not sure that your data arises from such a model. Possible polynomial oscillation problems',
     );
+  }
 
-  var half = Math.floor(windowSize / 2);
-  var np = data.length;
-  var ans = new Array(np);
-  var weights = fullWeights(windowSize, polynomial, derivative);
-  var hs = 0;
-  var constantH = true;
-  if (Object.prototype.toString.call(h) === "[object Array]") {
+  let half = Math.floor(windowSize / 2);
+  let np = data.length;
+  let ans = new Array(np);
+  let weights = fullWeights(windowSize, polynomial, derivative);
+  let hs = 0;
+  let constantH = true;
+  if (Array.isArray(h)) {
     constantH = false;
   } else {
     hs = Math.pow(h, derivative);
   }
-  //console.log("Constant h: "+constantH);
+
   //For the borders
-  for (var i = 0; i < half; i++) {
-    var wg1 = weights[half - i - 1];
-    var wg2 = weights[half + i + 1];
-    var d1 = 0,
-      d2 = 0;
-    for (var l = 0; l < windowSize; l++) {
+  for (let i = 0; i < half; i++) {
+    let wg1 = weights[half - i - 1];
+    let wg2 = weights[half + i + 1];
+    let d1 = 0;
+    let d2 = 0;
+    for (let l = 0; l < windowSize; l++) {
       d1 += wg1[l] * data[l];
       d2 += wg2[l] * data[np - windowSize + l - 1];
     }
@@ -55,11 +57,12 @@ export default function SavitzkyGolay(data, h, options = {}) {
       ans[np - half + i] = d2 / hs;
     }
   }
+
   //For the internal points
-  var wg = weights[half];
-  for (var i = windowSize; i < np + 1; i++) {
-    var d = 0;
-    for (var l = 0; l < windowSize; l++) d += wg[l] * data[l + i - windowSize];
+  let wg = weights[half];
+  for (let i = windowSize; i <= np; i++) {
+    let d = 0;
+    for (let l = 0; l < windowSize; l++) d += wg[l] * data[l + i - windowSize];
     if (!constantH) hs = getHs(h, i - half - 1, half, derivative);
     ans[i - half - 1] = d / hs;
   }
@@ -67,9 +70,9 @@ export default function SavitzkyGolay(data, h, options = {}) {
 }
 
 function getHs(h, center, half, derivative) {
-  var hs = 0;
-  var count = 0;
-  for (var i = center - half; i < center + half; i++) {
+  let hs = 0;
+  let count = 0;
+  for (let i = center - half; i < center + half; i++) {
     if (i >= 0 && i < h.length - 1) {
       hs += h[i + 1] - h[i];
       count++;
@@ -79,7 +82,7 @@ function getHs(h, center, half, derivative) {
 }
 
 function GramPoly(i, m, k, s) {
-  var Grampoly = 0;
+  let Grampoly = 0;
   if (k > 0) {
     Grampoly =
       ((4 * k - 2) / (k * (2 * m - k + 1))) *
@@ -87,20 +90,19 @@ function GramPoly(i, m, k, s) {
       (((k - 1) * (2 * m + k)) / (k * (2 * m - k + 1))) *
         GramPoly(i, m, k - 2, s);
   } else {
-    if (k == 0 && s == 0) {
+    if (k === 0 && s === 0) {
       Grampoly = 1;
     } else {
       Grampoly = 0;
     }
   }
-  //console.log(Grampoly);
   return Grampoly;
 }
 
 function GenFact(a, b) {
-  var gf = 1;
+  let gf = 1;
   if (a >= b) {
-    for (var j = a - b + 1; j <= a; j++) {
+    for (let j = a - b + 1; j <= a; j++) {
       gf *= j;
     }
   }
@@ -108,8 +110,8 @@ function GenFact(a, b) {
 }
 
 function Weight(i, t, m, n, s) {
-  var sum = 0;
-  for (var k = 0; k <= n; k++) {
+  let sum = 0;
+  for (let k = 0; k <= n; k++) {
     //console.log(k);
     sum +=
       (2 * k + 1) *
@@ -127,11 +129,11 @@ function Weight(i, t, m, n, s) {
  * @param s  Derivative
  */
 function fullWeights(m, n, s) {
-  var weights = new Array(m);
-  var np = Math.floor(m / 2);
-  for (var t = -np; t <= np; t++) {
+  let weights = new Array(m);
+  let np = Math.floor(m / 2);
+  for (let t = -np; t <= np; t++) {
     weights[t + np] = new Array(m);
-    for (var j = -np; j <= np; j++) {
+    for (let j = -np; j <= np; j++) {
       weights[t + np][j + np] = Weight(j, t, np, n, s);
     }
   }

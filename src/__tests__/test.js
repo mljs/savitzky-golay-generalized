@@ -1,91 +1,84 @@
-"use strict";
+import SG from '..';
 
-import SG from "..";
-
-describe("Savitzky–Golay", function() {
-  it("Smoothing test", function() {
-    var options = {
+describe('Savitzky–Golay', () => {
+  it('Smoothing test', () => {
+    let options = {
       windowSize: 15,
       derivative: 0,
-      polynomial: 3
+      polynomial: 3,
     };
 
-    var noiseLevel = 0.1;
-    var data = new Array(200);
-    for (var i = 0; i < data.length; i++)
+    let noiseLevel = 0.01;
+    let data = new Array(200);
+    for (let i = 0; i < data.length; i++) {
       data[i] =
         Math.sin((i * Math.PI * 2) / data.length) +
         (Math.random() - 0.5) * noiseLevel;
-    var ans = SG(data, (Math.PI * 2) / data.length, options);
+    }
+    let ans = SG(data, (Math.PI * 2) / data.length, options);
     for (
-      var j = Math.round(options.windowSize / 2);
+      let j = Math.round(options.windowSize / 2);
       j < ans.length - Math.round(options.windowSize / 2);
       j++
-    )
-      ans[j].should.be.approximately(data[j], noiseLevel);
+    ) {
+      expect(ans[j]).toBeCloseTo(data[j], -Math.log10(noiseLevel) - 1);
+    }
   });
 
-  it("First derivative test", function() {
-    var options = {
+  it('First derivative test', () => {
+    let options = {
       windowSize: 47,
       derivative: 1,
-      polynomial: 3
+      polynomial: 3,
     };
 
-    var noiseLevel = 0.1;
-    var data = new Array(200);
-    for (var i = 0; i < data.length; i++)
+    let noiseLevel = 0.1;
+    let data = new Array(200);
+    for (let i = 0; i < data.length; i++) {
       data[i] =
         Math.sin((i * Math.PI * 2) / data.length) +
         (Math.random() - 0.5) * noiseLevel;
-    var ans = SG(data, (Math.PI * 2) / data.length, options);
-
-    /*for (var j = 0; j < data.length; j++){
-            console.log(j+" "+data[j]+" "+ans[j]);
-        }*/
+    }
+    let ans = SG(data, (Math.PI * 2) / data.length, options);
 
     for (
-      var j = Math.round(options.windowSize / 2);
+      let j = Math.round(options.windowSize / 2);
       j < data.length - Math.round(options.windowSize / 2);
       j++
     ) {
-      ans[j].should.be.approximately(
+      expect(ans[j]).toBeCloseTo(
         Math.cos((j * Math.PI * 2) / data.length),
-        noiseLevel
+        -Math.log10(noiseLevel) - 1,
       );
     }
   });
 
-  it("First derivative test x as vector", function() {
-    var options = {
+  it('First derivative test x as vector', () => {
+    let options = {
       windowSize: 47,
       derivative: 1,
-      polynomial: 3
+      polynomial: 3,
     };
 
-    var noiseLevel = 0.1;
-    var data = new Array(200);
-    var x = new Array(200);
-    for (var i = 0; i < data.length; i++) {
+    let noiseLevel = 0.1;
+    let data = new Array(200);
+    let x = new Array(200);
+    for (let i = 0; i < data.length; i++) {
       data[i] =
         Math.sin((i * Math.PI * 2) / data.length) +
         (Math.random() - 0.5) * noiseLevel;
       x[i] = (i * Math.PI * 2) / data.length;
     }
 
-    var ans = SG(data, (Math.PI * 2) / data.length, options);
-    var ans2 = SG(data, x, options);
-
-    /*for (var j = 0; j < data.length; j++){
-            console.log(ans[j]+" "+ans2[j]);
-        }*/
+    let ans = SG(data, (Math.PI * 2) / data.length, options);
+    let ans2 = SG(data, x, options);
 
     for (
-      var j = Math.round(options.windowSize / 2);
+      let j = Math.round(options.windowSize / 2);
       j < data.length - Math.round(options.windowSize / 2);
       j++
     ) {
-      ans[j].should.be.approximately(ans2[j], 10e-10);
+      expect(ans[j]).toBeCloseTo(ans2[j], 10);
     }
   });
 });
