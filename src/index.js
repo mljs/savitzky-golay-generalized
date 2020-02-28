@@ -164,4 +164,3 @@ function guessWindowSize(data, h){
     return 5;
 }
 */
-module.exports = SavitzkyGolay;
