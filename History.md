@@ -1,3 +1,12 @@
+## [2.0.1](https://github.com/mljs/savitzky-golay-generalized/compare/v2.0.0...v2.0.1) (2020-02-28)
+
+
+### Bug Fixes
+
+* remove module.exports ([ce40029](https://github.com/mljs/savitzky-golay-generalized/commit/ce40029d20786fa8b7cb0a21cafb7b6f950325b3))
+
+
+
 # [2.0.0](https://github.com/mljs/savitzky-golay-generalized/compare/v1.1.1...v2.0.0) (2020-02-26)
 
 
