@@ -45,7 +45,7 @@ export default function SavitzkyGolay(data, h, options = {}) {
     let d2 = 0;
     for (let l = 0; l < windowSize; l++) {
       d1 += wg1[l] * data[l];
-      d2 += wg2[l] * data[np - windowSize + l - 1];
+      d2 += wg2[l] * data[np - windowSize + l];
     }
     if (constantH) {
       ans[half - i - 1] = d1 / hs;
