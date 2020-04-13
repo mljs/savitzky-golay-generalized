@@ -1,3 +1,12 @@
+## [2.0.2](https://github.com/mljs/savitzky-golay-generalized/compare/v2.0.1...v2.0.2) (2020-04-13)
+
+
+### Bug Fixes
+
+* fix calculation of right-hand-side border ([06efae8](https://github.com/mljs/savitzky-golay-generalized/commit/06efae8b31439ba1590e69ea73c345d8d4e563a4))
+
+
+
 ## [2.0.1](https://github.com/mljs/savitzky-golay-generalized/compare/v2.0.0...v2.0.1) (2020-02-28)
 
 
