@@ -1,3 +1,5 @@
+# Changelog
+
 ### [2.0.3](https://github.com/mljs/savitzky-golay-generalized/compare/v2.0.2...v2.0.3) (2020-11-19)
 
 
