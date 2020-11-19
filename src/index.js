@@ -134,7 +134,7 @@ function Weight(i, t, m, n, s) {
 }
 
 /**
- *
+ * @private
  * @param m  Number of points
  * @param n  Polynomial grade
  * @param s  Derivative
