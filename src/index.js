@@ -1,4 +1,15 @@
-export default function SavitzkyGolay(data, h, options = {}) {
+/**
+ *
+ * @param {array} [ys] Array of y values
+ * @param {array|number} [xs] Array of X or deltaX
+ * @param {object} [options={}]
+ * @param {number} [options.windowSize=9]
+ * @param {number} [options.derivative=0]
+ * @param {number} [options.polynomial=3]
+ * @return {array} Array containing the new ys (same length)
+ */
+
+export default function SavitzkyGolay(ys, xs, options = {}) {
   let { windowSize = 9, derivative = 0, polynomial = 3 } = options;
 
   if (windowSize % 2 === 0 || windowSize < 5 || !Number.isInteger(windowSize)) {
@@ -6,9 +17,9 @@ export default function SavitzkyGolay(data, h, options = {}) {
       'Invalid window size (should be odd and at least 5 integer number)',
     );
   }
-  if (windowSize > data.length) {
+  if (windowSize > ys.length) {
     throw new RangeError(
-      `Window size is higher than the data length ${windowSize}>${data.length}`,
+      `Window size is higher than the data length ${windowSize}>${ys.length}`,
     );
   }
   if (derivative < 0 || !Number.isInteger(derivative)) {
@@ -26,15 +37,15 @@ export default function SavitzkyGolay(data, h, options = {}) {
   }
 
   let half = Math.floor(windowSize / 2);
-  let np = data.length;
+  let np = ys.length;
   let ans = new Array(np);
   let weights = fullWeights(windowSize, polynomial, derivative);
   let hs = 0;
   let constantH = true;
-  if (Array.isArray(h)) {
+  if (Array.isArray(xs)) {
     constantH = false;
   } else {
-    hs = Math.pow(h, derivative);
+    hs = Math.pow(xs, derivative);
   }
 
   //For the borders
@@ -44,16 +55,16 @@ export default function SavitzkyGolay(data, h, options = {}) {
     let d1 = 0;
     let d2 = 0;
     for (let l = 0; l < windowSize; l++) {
-      d1 += wg1[l] * data[l];
-      d2 += wg2[l] * data[np - windowSize + l];
+      d1 += wg1[l] * ys[l];
+      d2 += wg2[l] * ys[np - windowSize + l];
     }
     if (constantH) {
       ans[half - i - 1] = d1 / hs;
       ans[np - half + i] = d2 / hs;
     } else {
-      hs = getHs(h, half - i - 1, half, derivative);
+      hs = getHs(xs, half - i - 1, half, derivative);
       ans[half - i - 1] = d1 / hs;
-      hs = getHs(h, np - half + i, half, derivative);
+      hs = getHs(xs, np - half + i, half, derivative);
       ans[np - half + i] = d2 / hs;
     }
   }
@@ -62,8 +73,8 @@ export default function SavitzkyGolay(data, h, options = {}) {
   let wg = weights[half];
   for (let i = windowSize; i <= np; i++) {
     let d = 0;
-    for (let l = 0; l < windowSize; l++) d += wg[l] * data[l + i - windowSize];
-    if (!constantH) hs = getHs(h, i - half - 1, half, derivative);
+    for (let l = 0; l < windowSize; l++) d += wg[l] * ys[l + i - windowSize];
+    if (!constantH) hs = getHs(xs, i - half - 1, half, derivative);
     ans[i - half - 1] = d / hs;
   }
   return ans;
