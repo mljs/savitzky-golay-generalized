@@ -1,3 +1,10 @@
+### [2.0.3](https://github.com/mljs/savitzky-golay-generalized/compare/v2.0.2...v2.0.3) (2020-11-19)
+
+
+### Bug Fixes
+
+* documentation ([5acebc0](https://github.com/mljs/savitzky-golay-generalized/commit/5acebc0485cd92bd606d515c0200d4b96e020eaf))
+
 ## [2.0.2](https://github.com/mljs/savitzky-golay-generalized/compare/v2.0.1...v2.0.2) (2020-04-13)
 
 
