@@ -1,5 +1,5 @@
 /**
- *
+ * Apply Savitzky Golay algorithm
  * @param {array} [ys] Array of y values
  * @param {array|number} [xs] Array of X or deltaX
  * @param {object} [options={}]
