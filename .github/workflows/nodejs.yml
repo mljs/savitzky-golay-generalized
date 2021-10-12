@@ -16,6 +16,8 @@ jobs:
           npm run eslint
         env:
           CI: true
+      - name: Check types
+        run: npm run check-types
   test:
     runs-on: ubuntu-latest
     strategy:
