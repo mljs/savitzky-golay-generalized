@@ -17,6 +17,12 @@ export default function SavitzkyGolay(ys, xs, options = {}) {
       'Invalid window size (should be odd and at least 5 integer number)',
     );
   }
+  if (!Array.isArray(ys)) {
+    throw new TypeError('Y values must be an array');
+  }
+  if (typeof xs === 'undefined') {
+    throw new TypeError('X must be defined');
+  }
   if (windowSize > ys.length) {
     throw new RangeError(
       `Window size is higher than the data length ${windowSize}>${ys.length}`,
