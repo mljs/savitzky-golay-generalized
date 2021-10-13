@@ -18,10 +18,10 @@ export default function SavitzkyGolay(ys, xs, options = {}) {
     );
   }
   if (!Array.isArray(ys)) {
-    throw new Error('Y values must be an array');
+    throw new TypeError('Y values must be an array');
   }
-  if (typeof xs == 'undefined') {
-    throw new Error('X must be defined');
+  if (typeof xs === 'undefined') {
+    throw new TypeError('X must be defined');
   }
   if (windowSize > ys.length) {
     throw new RangeError(
