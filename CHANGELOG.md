@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.0.4](https://www.github.com/mljs/savitzky-golay-generalized/compare/v2.0.3...v2.0.4) (2021-10-13)
+
+
+### Bug Fixes
+
+* migrate CHANGELOG ([e4bdfbb](https://www.github.com/mljs/savitzky-golay-generalized/commit/e4bdfbbeadb29efdf06c1f31a2d5f5332719d1dd))
+
 ### [2.0.3](https://github.com/mljs/savitzky-golay-generalized/compare/v2.0.2...v2.0.3) (2020-11-19)
 
 
@@ -46,6 +53,3 @@
 ### Bug Fixes
 
 * use range for ml-stat dependency ([aa9ecd1](https://github.com/mljs/savitzky-golay-generalized/commit/aa9ecd1))
-
-
-
