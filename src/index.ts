@@ -9,7 +9,15 @@
  * @return {array} Array containing the new ys (same length)
  */
 
-export default function SavitzkyGolay(ys, xs, options = {}) {
+export default function SavitzkyGolay(
+  ys: Array<number>,
+  xs: Array<number> | number,
+  options: {
+    windowSize?: number;
+    derivative?: number;
+    polynomial?: number;
+  } = {},
+): Array<number> {
   let { windowSize = 9, derivative = 0, polynomial = 3 } = options;
 
   if (windowSize % 2 === 0 || windowSize < 5 || !Number.isInteger(windowSize)) {
@@ -68,9 +76,9 @@ export default function SavitzkyGolay(ys, xs, options = {}) {
       ans[half - i - 1] = d1 / hs;
       ans[np - half + i] = d2 / hs;
     } else {
-      hs = getHs(xs, half - i - 1, half, derivative);
+      hs = getHs(xs as Array<number>, half - i - 1, half, derivative);
       ans[half - i - 1] = d1 / hs;
-      hs = getHs(xs, np - half + i, half, derivative);
+      hs = getHs(xs as Array<number>, np - half + i, half, derivative);
       ans[np - half + i] = d2 / hs;
     }
   }
@@ -80,13 +88,20 @@ export default function SavitzkyGolay(ys, xs, options = {}) {
   for (let i = windowSize; i <= np; i++) {
     let d = 0;
     for (let l = 0; l < windowSize; l++) d += wg[l] * ys[l + i - windowSize];
-    if (!constantH) hs = getHs(xs, i - half - 1, half, derivative);
+    if (!constantH) {
+      hs = getHs(xs as Array<number>, i - half - 1, half, derivative);
+    }
     ans[i - half - 1] = d / hs;
   }
   return ans;
 }
 
-function getHs(h, center, half, derivative) {
+function getHs(
+  h: Array<number>,
+  center: number,
+  half: number,
+  derivative: number,
+): number {
   let hs = 0;
   let count = 0;
   for (let i = center - half; i < center + half; i++) {
@@ -98,7 +113,7 @@ function getHs(h, center, half, derivative) {
   return Math.pow(hs / count, derivative);
 }
 
-function GramPoly(i, m, k, s) {
+function GramPoly(i: number, m: number, k: number, s: number): number {
   let Grampoly = 0;
   if (k > 0) {
     Grampoly =
@@ -116,7 +131,7 @@ function GramPoly(i, m, k, s) {
   return Grampoly;
 }
 
-function GenFact(a, b) {
+function GenFact(a: number, b: number): number {
   let gf = 1;
   if (a >= b) {
     for (let j = a - b + 1; j <= a; j++) {
@@ -126,10 +141,9 @@ function GenFact(a, b) {
   return gf;
 }
 
-function Weight(i, t, m, n, s) {
+function Weight(i: number, t: number, m: number, n: number, s: number): number {
   let sum = 0;
   for (let k = 0; k <= n; k++) {
-    //console.log(k);
     sum +=
       (2 * k + 1) *
       (GenFact(2 * m, k) / GenFact(2 * m + k + 1, k + 1)) *
@@ -145,7 +159,7 @@ function Weight(i, t, m, n, s) {
  * @param n  Polynomial grade
  * @param s  Derivative
  */
-function fullWeights(m, n, s) {
+function fullWeights(m: number, n: number, s: number): Array<Array<number>> {
   let weights = new Array(m);
   let np = Math.floor(m / 2);
   for (let t = -np; t <= np; t++) {
