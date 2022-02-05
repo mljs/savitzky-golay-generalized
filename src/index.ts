@@ -1,6 +1,5 @@
-
-import { DoubleArray } from "cheminfo-types";
-import { isAnyArray } from "is-any-array";
+import { DoubleArray } from 'cheminfo-types';
+import { isAnyArray } from 'is-any-array';
 
 /**
  * Apply Savitzky Golay algorithm
@@ -13,17 +12,17 @@ export default function SavitzkyGolay(
   ys: DoubleArray,
   xs: DoubleArray | number,
   options: {
-  /**
-   * @default 9
-   */
+    /**
+     * @default 9
+     */
     windowSize?: number;
-  /**
-   * @default 0
-   */
+    /**
+     * @default 0
+     */
     derivative?: number;
-  /**
-   * @default 3
-   */
+    /**
+     * @default 3
+     */
     polynomial?: number;
   } = {},
 ): Float64Array {
