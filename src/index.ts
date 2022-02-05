@@ -1,23 +1,32 @@
+
+import { DoubleArray } from "cheminfo-types";
+import { isAnyArray } from "is-any-array";
+
 /**
  * Apply Savitzky Golay algorithm
- * @param {array} [ys] Array of y values
- * @param {array|number} [xs] Array of X or deltaX
- * @param {object} [options={}]
- * @param {number} [options.windowSize=9]
- * @param {number} [options.derivative=0]
- * @param {number} [options.polynomial=3]
- * @return {array} Array containing the new ys (same length)
+ * @param [ys] Array of y values
+ * @param [xs] Array of X or deltaX
+ * @return  Array containing the new ys (same length)
  */
 
 export default function SavitzkyGolay(
-  ys: Array<number>,
-  xs: Array<number> | number,
+  ys: DoubleArray,
+  xs: DoubleArray | number,
   options: {
+  /**
+   * @default 9
+   */
     windowSize?: number;
+  /**
+   * @default 0
+   */
     derivative?: number;
+  /**
+   * @default 3
+   */
     polynomial?: number;
   } = {},
-): Array<number> {
+): Float64Array {
   let { windowSize = 9, derivative = 0, polynomial = 3 } = options;
 
   if (windowSize % 2 === 0 || windowSize < 5 || !Number.isInteger(windowSize)) {
@@ -25,7 +34,7 @@ export default function SavitzkyGolay(
       'Invalid window size (should be odd and at least 5 integer number)',
     );
   }
-  if (!Array.isArray(ys)) {
+  if (!isAnyArray(ys)) {
     throw new TypeError('Y values must be an array');
   }
   if (typeof xs === 'undefined') {
@@ -52,14 +61,14 @@ export default function SavitzkyGolay(
 
   let half = Math.floor(windowSize / 2);
   let np = ys.length;
-  let ans = new Array(np);
+  let ans = new Float64Array(np);
   let weights = fullWeights(windowSize, polynomial, derivative);
   let hs = 0;
   let constantH = true;
-  if (Array.isArray(xs)) {
+  if (isAnyArray(xs)) {
     constantH = false;
   } else {
-    hs = Math.pow(xs, derivative);
+    hs = Math.pow(xs as number, derivative);
   }
 
   //For the borders
@@ -76,9 +85,9 @@ export default function SavitzkyGolay(
       ans[half - i - 1] = d1 / hs;
       ans[np - half + i] = d2 / hs;
     } else {
-      hs = getHs(xs as Array<number>, half - i - 1, half, derivative);
+      hs = getHs(xs as DoubleArray, half - i - 1, half, derivative);
       ans[half - i - 1] = d1 / hs;
-      hs = getHs(xs as Array<number>, np - half + i, half, derivative);
+      hs = getHs(xs as DoubleArray, np - half + i, half, derivative);
       ans[np - half + i] = d2 / hs;
     }
   }
@@ -89,7 +98,7 @@ export default function SavitzkyGolay(
     let d = 0;
     for (let l = 0; l < windowSize; l++) d += wg[l] * ys[l + i - windowSize];
     if (!constantH) {
-      hs = getHs(xs as Array<number>, i - half - 1, half, derivative);
+      hs = getHs(xs as DoubleArray, i - half - 1, half, derivative);
     }
     ans[i - half - 1] = d / hs;
   }
@@ -97,7 +106,7 @@ export default function SavitzkyGolay(
 }
 
 function getHs(
-  h: Array<number>,
+  h: DoubleArray,
   center: number,
   half: number,
   derivative: number,
@@ -113,14 +122,14 @@ function getHs(
   return Math.pow(hs / count, derivative);
 }
 
-function GramPoly(i: number, m: number, k: number, s: number): number {
+function gramPoly(i: number, m: number, k: number, s: number): number {
   let Grampoly = 0;
   if (k > 0) {
     Grampoly =
       ((4 * k - 2) / (k * (2 * m - k + 1))) *
-        (i * GramPoly(i, m, k - 1, s) + s * GramPoly(i, m, k - 1, s - 1)) -
+        (i * gramPoly(i, m, k - 1, s) + s * gramPoly(i, m, k - 1, s - 1)) -
       (((k - 1) * (2 * m + k)) / (k * (2 * m - k + 1))) *
-        GramPoly(i, m, k - 2, s);
+        gramPoly(i, m, k - 2, s);
   } else {
     if (k === 0 && s === 0) {
       Grampoly = 1;
@@ -131,7 +140,7 @@ function GramPoly(i: number, m: number, k: number, s: number): number {
   return Grampoly;
 }
 
-function GenFact(a: number, b: number): number {
+function genFact(a: number, b: number): number {
   let gf = 1;
   if (a >= b) {
     for (let j = a - b + 1; j <= a; j++) {
@@ -141,14 +150,14 @@ function GenFact(a: number, b: number): number {
   return gf;
 }
 
-function Weight(i: number, t: number, m: number, n: number, s: number): number {
+function weight(i: number, t: number, m: number, n: number, s: number): number {
   let sum = 0;
   for (let k = 0; k <= n; k++) {
     sum +=
       (2 * k + 1) *
-      (GenFact(2 * m, k) / GenFact(2 * m + k + 1, k + 1)) *
-      GramPoly(i, m, k, 0) *
-      GramPoly(t, m, k, s);
+      (genFact(2 * m, k) / genFact(2 * m + k + 1, k + 1)) *
+      gramPoly(i, m, k, 0) *
+      gramPoly(t, m, k, s);
   }
   return sum;
 }
@@ -159,13 +168,13 @@ function Weight(i: number, t: number, m: number, n: number, s: number): number {
  * @param n  Polynomial grade
  * @param s  Derivative
  */
-function fullWeights(m: number, n: number, s: number): Array<Array<number>> {
+function fullWeights(m: number, n: number, s: number): Array<Float64Array> {
   let weights = new Array(m);
   let np = Math.floor(m / 2);
   for (let t = -np; t <= np; t++) {
-    weights[t + np] = new Array(m);
+    weights[t + np] = new Float64Array(m);
     for (let j = -np; j <= np; j++) {
-      weights[t + np][j + np] = Weight(j, t, np, n, s);
+      weights[t + np][j + np] = weight(j, t, np, n, s);
     }
   }
   return weights;
