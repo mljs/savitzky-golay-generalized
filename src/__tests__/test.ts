@@ -1,7 +1,7 @@
 import { sgg } from '..';
 
 describe('Savitzky Golay Generalized–', () => {
-  it('simple triangle, check symmetry to the derivative', () => {
+  it('simple triangle, check symmetry with x array', () => {
     const xs = new Array(101).fill(0).map((a, index) => index);
     const ys: number[] = [];
     for (let i = 0; i <= 50; i++) {
@@ -11,6 +11,23 @@ describe('Savitzky Golay Generalized–', () => {
       ys.push(100 - i);
     }
     let result = sgg(ys, xs, {
+      windowSize: 9,
+      derivative: 0,
+    });
+    for (let i = 0; i < 50; i++) {
+      expect(result[i]).toBeCloseTo(result[100 - i]);
+    }
+  });
+
+  it('simple triangle, check symmetry with x constant', () => {
+    const ys: number[] = [];
+    for (let i = 0; i <= 50; i++) {
+      ys.push(i);
+    }
+    for (let i = 51; i <= 100; i++) {
+      ys.push(100 - i);
+    }
+    let result = sgg(ys, 1, {
       windowSize: 9,
       derivative: 0,
     });
