@@ -11,8 +11,8 @@ I'll try an automatic parameter tunning based on the SNR or in the entropy of th
 
 ```js
 npm i ml-savitzky-golay-generalized
-const {savitzkyGolay} = require("ml-savitzky-golay-generalized");
-savitzkyGolay(dataY, deltaX|X, options)
+const {sgg} = require("ml-savitzky-golay-generalized");
+sgg(dataY, deltaX|X, options)
 ```
 
 ## Parameters
@@ -43,75 +43,67 @@ The order of the regression polynomial. Default 3
 ## Examples
 
 ```js
-var SG = require('ml-savitzky-golay-generalized');
+const { sgg } = require('ml-savitzky-golay-generalized');
 ```
 
 ### Smoothing example
 
 ```js
-var options = {
+const options = {
   windowSize: 15,
   derivative: 0,
   polynomial: 3,
 };
 
-var noiseLevel = 0.1;
-var data = new Array(200);
-for (var i = 0; i < data.length; i++)
+const noiseLevel = 0.1;
+const data = new Array(200);
+for (let i = 0; i < data.length; i++)
   data[i] =
     Math.sin((i * Math.PI * 2) / data.length) +
     (Math.random() - 0.5) * noiseLevel;
-var ans = SG(data, (Math.PI * 2) / data.length, options);
-console.log(ans);
+const answer = sgg(data, (Math.PI * 2) / data.length, options);
+console.log(answer);
 ```
 
 ### First derivative test (Equally spaced x)
 
 ```js
-var options = {
+const options = {
   windowSize: 45,
   derivative: 1,
   polynomial: 3,
 };
 
-var noiseLevel = 0.1;
-var data = new Array(200);
-for (var i = 0; i < data.length; i++)
+const noiseLevel = 0.1;
+const data = new Array(200);
+for (let i = 0; i < data.length; i++) {
   data[i] =
     Math.sin((i * Math.PI * 2) / data.length) +
     (Math.random() - 0.5) * noiseLevel;
-var ans = SG(data, (Math.PI * 2) / data.length, options);
-console.log(ans);
+}
+const answer = sgg(data, (Math.PI * 2) / data.length, options);
+console.log(answer);
 ```
 
 ### First derivative test x as vector(It could be non-equally spaced!!)
 
 ```js
-var options = {
+const options = {
   windowSize: 47,
   derivative: 1,
   polynomial: 3,
 };
 
-var noiseLevel = 0.1;
-var data = new Array(200);
-var x = new Array(200);
-for (var i = 0; i < data.length; i++) {
+const noiseLevel = 0.1;
+const data = new Array(200);
+const x = new Array(200);
+for (let i = 0; i < data.length; i++) {
   data[i] =
     Math.sin((i * Math.PI * 2) / data.length) +
     (Math.random() - 0.5) * noiseLevel;
   x[i] = (i * Math.PI * 2) / data.length;
 }
 
-var ans = SG(data, (Math.PI * 2) / data.length, options);
-var ans2 = SG(data, x, options);
-
-/*for (var j = 0; j < data.length; j++){
-      console.log(ans[j]+" "+ans2[j]);
- }*/
-/* The result should be the approximately the same
-for (var j = Math.round(options.windowSize/2); j < data.length-Math.round(options.windowSize/2); j++){
-    ans[j].should.be.approximately(ans2[j], 10e-10);
- }
-*/
+const ans = sgg(data, (Math.PI * 2) / data.length, options);
+const ans2 = sgg(data, x, options);
 ```

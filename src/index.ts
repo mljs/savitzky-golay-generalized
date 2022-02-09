@@ -1,7 +1,7 @@
 import { DoubleArray } from 'cheminfo-types';
 import { isAnyArray } from 'is-any-array';
 
-export interface SGOptions {
+export interface SGGOptions {
   /**
    * @default 9
    */
@@ -23,10 +23,10 @@ export interface SGOptions {
  * @return  Array containing the new ys (same length)
  */
 
-export function sg(
+export function sgg(
   ys: DoubleArray,
   xs: DoubleArray | number,
-  options: SGOptions = {},
+  options: SGGOptions = {},
 ): Float64Array {
   let { windowSize = 9, derivative = 0, polynomial = 3 } = options;
 
