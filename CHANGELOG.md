@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.0.0](https://www.github.com/mljs/savitzky-golay-generalized/compare/v3.0.0...v4.0.0) (2022-02-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* export sgg and SGGOptions
+* no default export
+
+### Features
+
+* export sgg and SGGOptions ([6711a31](https://www.github.com/mljs/savitzky-golay-generalized/commit/6711a31aecee25d03eadd4e235bc25b184043b5d))
+* no default export ([dc4b139](https://www.github.com/mljs/savitzky-golay-generalized/commit/dc4b139864535619472448ded56437d6279b3ea2))
+
 ## [3.0.0](https://www.github.com/mljs/savitzky-golay-generalized/compare/v2.0.3...v3.0.0) (2022-02-05)
 
 
