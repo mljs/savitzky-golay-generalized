@@ -11,8 +11,8 @@ I'll try an automatic parameter tunning based on the SNR or in the entropy of th
 
 ```js
 npm i ml-savitzky-golay-generalized
-const SG = require("ml-savitzky-golay-generalized");
-SG(dataY, deltaX|X, options)
+const {savitzkyGolay} = require("ml-savitzky-golay-generalized");
+savitzkyGolay(dataY, deltaX|X, options)
 ```
 
 ## Parameters

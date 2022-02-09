@@ -1,4 +1,4 @@
-import SG from '..';
+import { sg } from '..';
 
 describe('Savitzky–Golay', () => {
   it('Smoothing test', () => {
@@ -15,7 +15,7 @@ describe('Savitzky–Golay', () => {
         Math.sin((i * Math.PI * 2) / data.length) +
         (Math.random() - 0.5) * noiseLevel;
     }
-    let ans = SG(data, (Math.PI * 2) / data.length, options);
+    let ans = sg(data, (Math.PI * 2) / data.length, options);
     for (
       let j = Math.round(options.windowSize / 2);
       j < ans.length - Math.round(options.windowSize / 2);
@@ -39,7 +39,7 @@ describe('Savitzky–Golay', () => {
         Math.sin((i * Math.PI * 2) / data.length) +
         (Math.random() - 0.5) * noiseLevel;
     }
-    let ans = SG(data, (Math.PI * 2) / data.length, options);
+    let ans = sg(data, (Math.PI * 2) / data.length, options);
 
     for (
       let j = Math.round(options.windowSize / 2);
@@ -70,8 +70,8 @@ describe('Savitzky–Golay', () => {
       x[i] = (i * Math.PI * 2) / data.length;
     }
 
-    let ans = SG(data, (Math.PI * 2) / data.length, options);
-    let ans2 = SG(data, x, options);
+    let ans = sg(data, (Math.PI * 2) / data.length, options);
+    let ans2 = sg(data, x, options);
 
     for (
       let j = Math.round(options.windowSize / 2);
@@ -93,7 +93,7 @@ describe('Savitzky–Golay', () => {
     for (let i = 0; i < data.length; i++) {
       data[i] = Math.pow(i, 3) - 4 * Math.pow(i, 2) + 5 * i;
     }
-    let ans = SG(data, 1, options);
+    let ans = sg(data, 1, options);
     for (let j = 0; j < data.length; j++) {
       expect(ans[j]).toBeCloseTo(3 * Math.pow(j, 2) - 8 * j + 5, 6);
     }

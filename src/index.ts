@@ -1,6 +1,21 @@
 import { DoubleArray } from 'cheminfo-types';
 import { isAnyArray } from 'is-any-array';
 
+export interface SGOptions {
+  /**
+   * @default 9
+   */
+  windowSize?: number;
+  /**
+   * @default 0
+   */
+  derivative?: number;
+  /**
+   * @default 3
+   */
+  polynomial?: number;
+}
+
 /**
  * Apply Savitzky Golay algorithm
  * @param [ys] Array of y values
@@ -8,23 +23,10 @@ import { isAnyArray } from 'is-any-array';
  * @return  Array containing the new ys (same length)
  */
 
-export default function SavitzkyGolay(
+export function sg(
   ys: DoubleArray,
   xs: DoubleArray | number,
-  options: {
-    /**
-     * @default 9
-     */
-    windowSize?: number;
-    /**
-     * @default 0
-     */
-    derivative?: number;
-    /**
-     * @default 3
-     */
-    polynomial?: number;
-  } = {},
+  options: SGOptions = {},
 ): Float64Array {
   let { windowSize = 9, derivative = 0, polynomial = 3 } = options;
 
@@ -178,28 +180,3 @@ function fullWeights(m: number, n: number, s: number): Array<Float64Array> {
   }
   return weights;
 }
-
-/*function entropy(data,h,options){
-    var trend = SavitzkyGolay(data,h,trendOptions);
-    var copy = new Array(data.length);
-    var sum = 0;
-    var max = 0;
-    for(var i=0;i<data.length;i++){
-        copy[i] = data[i]-trend[i];
-    }
-
-    sum/=data.length;
-    console.log(sum+" "+max);
-    console.log(stat.array.standardDeviation(copy));
-    console.log(Math.abs(stat.array.mean(copy))/stat.array.standardDeviation(copy));
-    return sum;
-
-}
-
-
-
-function guessWindowSize(data, h){
-    console.log("entropy "+entropy(data,h,trendOptions));
-    return 5;
-}
-*/
