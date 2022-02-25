@@ -1,5 +1,12 @@
 # Changelog
 
+### [4.0.1](https://www.github.com/mljs/savitzky-golay-generalized/compare/v4.0.0...v4.0.1) (2022-02-25)
+
+
+### Bug Fixes
+
+* update dependencies ([072d5c0](https://www.github.com/mljs/savitzky-golay-generalized/commit/072d5c0bde902ef94608aa7a3ee067fc9e87001d))
+
 ## [4.0.0](https://www.github.com/mljs/savitzky-golay-generalized/compare/v3.0.0...v4.0.0) (2022-02-09)
 
 
