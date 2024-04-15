@@ -10,7 +10,7 @@ describe('Savitzky Golay Generalized–', () => {
     for (let i = 51; i <= 100; i++) {
       ys.push(100 - i);
     }
-    let result = sgg(ys, xs, {
+    const result = sgg(ys, xs, {
       windowSize: 9,
       derivative: 0,
     });
@@ -27,7 +27,7 @@ describe('Savitzky Golay Generalized–', () => {
     for (let i = 51; i <= 100; i++) {
       ys.push(100 - i);
     }
-    let result = sgg(ys, 1, {
+    const result = sgg(ys, 1, {
       windowSize: 9,
       derivative: 0,
     });
@@ -37,20 +37,20 @@ describe('Savitzky Golay Generalized–', () => {
   });
 
   it('Smoothing test', () => {
-    let options = {
+    const options = {
       windowSize: 15,
       derivative: 0,
       polynomial: 3,
     };
 
-    let noiseLevel = 0.01;
-    let data = new Array(200);
+    const noiseLevel = 0.01;
+    const data = new Array(200);
     for (let i = 0; i < data.length; i++) {
       data[i] =
         Math.sin((i * Math.PI * 2) / data.length) +
         (Math.random() - 0.5) * noiseLevel;
     }
-    let ans = sgg(data, (Math.PI * 2) / data.length, options);
+    const ans = sgg(data, (Math.PI * 2) / data.length, options);
     for (
       let j = Math.round(options.windowSize / 2);
       j < ans.length - Math.round(options.windowSize / 2);
@@ -61,20 +61,20 @@ describe('Savitzky Golay Generalized–', () => {
   });
 
   it('First derivative test', () => {
-    let options = {
+    const options = {
       windowSize: 47,
       derivative: 1,
       polynomial: 3,
     };
 
-    let noiseLevel = 0.1;
-    let data = new Array(200);
+    const noiseLevel = 0.1;
+    const data = new Array(200);
     for (let i = 0; i < data.length; i++) {
       data[i] =
         Math.sin((i * Math.PI * 2) / data.length) +
         (Math.random() - 0.5) * noiseLevel;
     }
-    let ans = sgg(data, (Math.PI * 2) / data.length, options);
+    const ans = sgg(data, (Math.PI * 2) / data.length, options);
 
     for (
       let j = Math.round(options.windowSize / 2);
@@ -89,15 +89,15 @@ describe('Savitzky Golay Generalized–', () => {
   });
 
   it('First derivative test x as vector', () => {
-    let options = {
+    const options = {
       windowSize: 47,
       derivative: 1,
       polynomial: 3,
     };
 
-    let noiseLevel = 0.1;
-    let data = new Array(200);
-    let x = new Array(200);
+    const noiseLevel = 0.1;
+    const data = new Array(200);
+    const x = new Array(200);
     for (let i = 0; i < data.length; i++) {
       data[i] =
         Math.sin((i * Math.PI * 2) / data.length) +
@@ -105,8 +105,8 @@ describe('Savitzky Golay Generalized–', () => {
       x[i] = (i * Math.PI * 2) / data.length;
     }
 
-    let ans = sgg(data, (Math.PI * 2) / data.length, options);
-    let ans2 = sgg(data, x, options);
+    const ans = sgg(data, (Math.PI * 2) / data.length, options);
+    const ans2 = sgg(data, x, options);
 
     for (
       let j = Math.round(options.windowSize / 2);
@@ -118,19 +118,19 @@ describe('Savitzky Golay Generalized–', () => {
   });
 
   it('Border test', () => {
-    let options = {
+    const options = {
       windowSize: 9,
       derivative: 1,
       polynomial: 3,
     };
 
-    let data = new Array(20);
+    const data = new Array(20);
     for (let i = 0; i < data.length; i++) {
-      data[i] = Math.pow(i, 3) - 4 * Math.pow(i, 2) + 5 * i;
+      data[i] = i ** 3 - 4 * i ** 2 + 5 * i;
     }
-    let ans = sgg(data, 1, options);
+    const ans = sgg(data, 1, options);
     for (let j = 0; j < data.length; j++) {
-      expect(ans[j]).toBeCloseTo(3 * Math.pow(j, 2) - 8 * j + 5, 6);
+      expect(ans[j]).toBeCloseTo(3 * j ** 2 - 8 * j + 5, 6);
     }
   });
 });

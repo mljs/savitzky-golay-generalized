@@ -28,7 +28,7 @@ export function sgg(
   xs: DoubleArray | number,
   options: SGGOptions = {},
 ): Float64Array {
-  let { windowSize = 9, derivative = 0, polynomial = 3 } = options;
+  const { windowSize = 9, derivative = 0, polynomial = 3 } = options;
 
   if (windowSize % 2 === 0 || windowSize < 5 || !Number.isInteger(windowSize)) {
     throw new RangeError(
@@ -60,22 +60,22 @@ export function sgg(
     );
   }
 
-  let half = Math.floor(windowSize / 2);
-  let np = ys.length;
-  let ans = new Float64Array(np);
-  let weights = fullWeights(windowSize, polynomial, derivative);
+  const half = Math.floor(windowSize / 2);
+  const np = ys.length;
+  const ans = new Float64Array(np);
+  const weights = fullWeights(windowSize, polynomial, derivative);
   let hs = 0;
   let constantH = true;
   if (isAnyArray(xs)) {
     constantH = false;
   } else {
-    hs = Math.pow(xs as number, derivative);
+    hs = xs ** derivative;
   }
 
   //For the borders
   for (let i = 0; i < half; i++) {
-    let wg1 = weights[half - i - 1];
-    let wg2 = weights[half + i + 1];
+    const wg1 = weights[half - i - 1];
+    const wg2 = weights[half + i + 1];
     let d1 = 0;
     let d2 = 0;
     for (let l = 0; l < windowSize; l++) {
@@ -94,7 +94,7 @@ export function sgg(
   }
 
   //For the internal points
-  let wg = weights[half];
+  const wg = weights[half];
   for (let i = windowSize; i <= np; i++) {
     let d = 0;
     for (let l = 0; l < windowSize; l++) d += wg[l] * ys[l + i - windowSize];
@@ -120,7 +120,7 @@ function getHs(
       count++;
     }
   }
-  return Math.pow(hs / count, derivative);
+  return (hs / count) ** derivative;
 }
 
 function gramPoly(i: number, m: number, k: number, s: number): number {
@@ -131,12 +131,10 @@ function gramPoly(i: number, m: number, k: number, s: number): number {
         (i * gramPoly(i, m, k - 1, s) + s * gramPoly(i, m, k - 1, s - 1)) -
       (((k - 1) * (2 * m + k)) / (k * (2 * m - k + 1))) *
         gramPoly(i, m, k - 2, s);
+  } else if (k === 0 && s === 0) {
+    Grampoly = 1;
   } else {
-    if (k === 0 && s === 0) {
-      Grampoly = 1;
-    } else {
-      Grampoly = 0;
-    }
+    Grampoly = 0;
   }
   return Grampoly;
 }
@@ -169,9 +167,9 @@ function weight(i: number, t: number, m: number, n: number, s: number): number {
  * @param n  Polynomial grade
  * @param s  Derivative
  */
-function fullWeights(m: number, n: number, s: number): Array<Float64Array> {
-  let weights = new Array(m);
-  let np = Math.floor(m / 2);
+function fullWeights(m: number, n: number, s: number): Float64Array[] {
+  const weights = new Array(m);
+  const np = Math.floor(m / 2);
   for (let t = -np; t <= np; t++) {
     weights[t + np] = new Float64Array(m);
     for (let j = -np; j <= np; j++) {
