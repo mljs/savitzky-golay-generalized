@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/mljs/savitzky-golay-generalized/compare/v4.0.1...v4.1.0) (2024-04-15)
+
+
+### Features
+
+* allow NumberArray rather that DoubleArray ([078a0f9](https://github.com/mljs/savitzky-golay-generalized/commit/078a0f94adaed3dee92b82b1f6db89cfdb0857fd))
+
 ### [4.0.1](https://www.github.com/mljs/savitzky-golay-generalized/compare/v4.0.0...v4.0.1) (2022-02-25)
 
 
