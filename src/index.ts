@@ -1,4 +1,4 @@
-import { DoubleArray } from 'cheminfo-types';
+import { NumberArray } from 'cheminfo-types';
 import { isAnyArray } from 'is-any-array';
 
 export interface SGGOptions {
@@ -24,8 +24,8 @@ export interface SGGOptions {
  */
 
 export function sgg(
-  ys: DoubleArray,
-  xs: DoubleArray | number,
+  ys: NumberArray,
+  xs: NumberArray | number,
   options: SGGOptions = {},
 ): Float64Array {
   const { windowSize = 9, derivative = 0, polynomial = 3 } = options;
@@ -86,9 +86,9 @@ export function sgg(
       ans[half - i - 1] = d1 / hs;
       ans[np - half + i] = d2 / hs;
     } else {
-      hs = getHs(xs as DoubleArray, half - i - 1, half, derivative);
+      hs = getHs(xs as NumberArray, half - i - 1, half, derivative);
       ans[half - i - 1] = d1 / hs;
-      hs = getHs(xs as DoubleArray, np - half + i, half, derivative);
+      hs = getHs(xs as NumberArray, np - half + i, half, derivative);
       ans[np - half + i] = d2 / hs;
     }
   }
@@ -99,7 +99,7 @@ export function sgg(
     let d = 0;
     for (let l = 0; l < windowSize; l++) d += wg[l] * ys[l + i - windowSize];
     if (!constantH) {
-      hs = getHs(xs as DoubleArray, i - half - 1, half, derivative);
+      hs = getHs(xs as NumberArray, i - half - 1, half, derivative);
     }
     ans[i - half - 1] = d / hs;
   }
@@ -107,7 +107,7 @@ export function sgg(
 }
 
 function getHs(
-  h: DoubleArray,
+  h: NumberArray,
   center: number,
   half: number,
   derivative: number,
