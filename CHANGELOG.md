@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.1](https://github.com/mljs/savitzky-golay-generalized/compare/v4.1.0...v4.1.1) (2024-04-15)
+
+
+### Bug Fixes
+
+* dummy commit to increase version ([53d3d63](https://github.com/mljs/savitzky-golay-generalized/commit/53d3d633067cab45c26e7f79e399ba3cf3c083ff))
+
 ## [4.1.0](https://github.com/mljs/savitzky-golay-generalized/compare/v4.0.1...v4.1.0) (2024-04-15)
 
 
