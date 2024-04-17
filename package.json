@@ -11,6 +11,7 @@
     "lib-esm"
   ],
   "scripts": {
+    "build": "npm run tsc-esm && cheminfo-build --entry lib-esm/index.js --root SGG",
     "check-types": "tsc --noEmit",
     "clean": "rimraf lib lib-esm",
     "eslint": "eslint src",
@@ -18,7 +19,7 @@
     "prepack": "npm run tsc",
     "prettier": "prettier --check src",
     "prettier-write": "prettier --write src",
-    "test": "npm run test-coverage && npm run eslint && npm run check-types",
+    "test": "npm run test-coverage && npm run eslint && npmr run prettier && npm run check-types",
     "test-coverage": "jest --coverage",
     "test-only": "jest",
     "tsc": "npm run clean && npm run tsc-cjs && npm run tsc-esm",
@@ -48,7 +49,8 @@
   "homepage": "https://github.com/mljs/savitzky-golay-generalized",
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "eslint": "^8.9.0",
+    "cheminfo-build": "^1.2.0",
+    "eslint": "^8.57.0",
     "eslint-config-cheminfo-typescript": "^12.3.0",
     "jest": "^29.7.0",
     "prettier": "^3.2.5",
