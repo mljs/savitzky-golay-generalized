@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.0](https://github.com/mljs/savitzky-golay-generalized/compare/v4.1.1...v4.2.0) (2024-04-17)
+
+
+### Features
+
+* add build on CDN ([eba7481](https://github.com/mljs/savitzky-golay-generalized/commit/eba7481607bbfb18da82736efa5072be56b8f3e4))
+
 ## [4.1.1](https://github.com/mljs/savitzky-golay-generalized/compare/v4.1.0...v4.1.1) (2024-04-15)
 
 
