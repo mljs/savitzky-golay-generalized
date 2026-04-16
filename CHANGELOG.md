@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.1](https://github.com/mljs/savitzky-golay-generalized/compare/v4.2.0...v4.2.1) (2026-04-16)
+
+
+### Bug Fixes
+
+* update is-any-array ([#15](https://github.com/mljs/savitzky-golay-generalized/issues/15)) ([120dc54](https://github.com/mljs/savitzky-golay-generalized/commit/120dc54f80b6faa23de4a2d9750ad338ec873cf8))
+
 ## [4.2.0](https://github.com/mljs/savitzky-golay-generalized/compare/v4.1.1...v4.2.0) (2024-04-17)
 
 
