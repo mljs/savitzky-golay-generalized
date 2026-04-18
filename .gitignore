@@ -1,6 +1,6 @@
 lib
-lib-esm
 dist
+.claude
 
 # Logs
 logs
