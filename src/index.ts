@@ -1,4 +1,4 @@
-import { NumberArray } from 'cheminfo-types';
+import type { NumberArray } from 'cheminfo-types';
 import { isAnyArray } from 'is-any-array';
 
 export interface SGGOptions {
@@ -17,12 +17,12 @@ export interface SGGOptions {
 }
 
 /**
- * Apply Savitzky Golay algorithm
- * @param [ys] Array of y values
- * @param [xs] Array of X or deltaX
- * @return  Array containing the new ys (same length)
+ * Apply Savitzky Golay algorithm.
+ * @param ys - Array of y values.
+ * @param xs - Array of X or deltaX.
+ * @param options - Options controlling window size, derivative and polynomial order.
+ * @returns Array containing the new ys (same length).
  */
-
 export function sgg(
   ys: NumberArray,
   xs: NumberArray | number,
@@ -38,7 +38,7 @@ export function sgg(
   if (!isAnyArray(ys)) {
     throw new TypeError('Y values must be an array');
   }
-  if (typeof xs === 'undefined') {
+  if (xs === undefined) {
     throw new TypeError('X must be defined');
   }
   if (windowSize > ys.length) {
@@ -162,10 +162,11 @@ function weight(i: number, t: number, m: number, n: number, s: number): number {
 }
 
 /**
- * @private
- * @param m  Number of points
- * @param n  Polynomial grade
- * @param s  Derivative
+ * Compute the full weights matrix for every position inside the window.
+ * @param m - Number of points.
+ * @param n - Polynomial grade.
+ * @param s - Derivative.
+ * @returns Array of Float64Array weight vectors, one per position in the window.
  */
 function fullWeights(m: number, n: number, s: number): Float64Array[] {
   const weights = new Array(m);
