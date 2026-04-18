@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.0](https://github.com/mljs/savitzky-golay-generalized/compare/v4.2.1...v5.0.0) (2026-04-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* package is now ESM-only; consumers using require() must migrate to import, or run Node.js >= 20.19, >= 22.12, or any 24.x or later.
+
+### Features
+
+* migrate package to ESM TypeScript ([b565094](https://github.com/mljs/savitzky-golay-generalized/commit/b5650945d3f794ac87c83eb553299abe0966df97))
+
 ## [4.2.1](https://github.com/mljs/savitzky-golay-generalized/compare/v4.2.0...v4.2.1) (2026-04-16)
 
 
