@@ -1,6 +1,6 @@
 {
   "name": "ml-savitzky-golay-generalized",
-  "version": "4.2.1",
+  "version": "5.0.0",
   "description": "Savitzky–Golay filter in Javascript",
   "type": "module",
   "exports": {
