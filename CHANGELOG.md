@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.1.0](https://github.com/mljs/savitzky-golay-generalized/compare/v5.0.0...v5.1.0) (2026-09-11)
+
+
+### Features
+
+* add sggPair public function to calculate both first and second derivative at once ([e289572](https://github.com/mljs/savitzky-golay-generalized/commit/e289572586add97c1f213abb3fec8189d560eec3))
+* improve SGG speed by caching weights ([e8de617](https://github.com/mljs/savitzky-golay-generalized/commit/e8de617d0459b6be87f3d89c7632212370241727))
+
 ## [5.0.0](https://github.com/mljs/savitzky-golay-generalized/compare/v4.2.1...v5.0.0) (2026-04-18)
 
 
