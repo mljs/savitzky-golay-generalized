@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 
-import { sgg } from '../index.ts';
+import { sgg } from '../sgg.ts';
 
 test('simple triangle, check symmetry with x array', () => {
   const xs = new Array(101).fill(0).map((a, index) => index);
