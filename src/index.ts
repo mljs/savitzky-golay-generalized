@@ -1,6 +1,8 @@
 import type { NumberArray } from 'cheminfo-types';
 import { isAnyArray } from 'is-any-array';
 
+import { cachedWeights } from './weights.ts';
+
 export interface SGGOptions {
   /**
    * @default 9
@@ -63,7 +65,7 @@ export function sgg(
   const half = Math.floor(windowSize / 2);
   const np = ys.length;
   const ans = new Float64Array(np);
-  const weights = fullWeights(windowSize, polynomial, derivative);
+  const weights = cachedWeights(windowSize, polynomial, derivative);
   let hs = 0;
   let constantH = true;
   if (isAnyArray(xs)) {
@@ -106,76 +108,33 @@ export function sgg(
   return ans;
 }
 
+/**
+ * The mean spacing of `h` over the window centred on `center`, raised to
+ * `derivative`.
+ *
+ * The sum of consecutive differences telescopes, so only the two ends of the
+ * window are read instead of every point.
+ *
+ * Orders 1 and 2 are spelled out because `x ** 1` is far slower than `x`.
+ * @param h - The x values.
+ * @param center - Index the window is centred on.
+ * @param half - Half the window size.
+ * @param derivative - The order the spacing is raised to.
+ * @returns The mean spacing to that power.
+ */
 function getHs(
   h: NumberArray,
   center: number,
   half: number,
   derivative: number,
 ): number {
-  let hs = 0;
-  let count = 0;
-  for (let i = center - half; i < center + half; i++) {
-    if (i >= 0 && i < h.length - 1) {
-      hs += h[i + 1] - h[i];
-      count++;
-    }
-  }
-  return (hs / count) ** derivative;
-}
-
-function gramPoly(i: number, m: number, k: number, s: number): number {
-  let Grampoly = 0;
-  if (k > 0) {
-    Grampoly =
-      ((4 * k - 2) / (k * (2 * m - k + 1))) *
-        (i * gramPoly(i, m, k - 1, s) + s * gramPoly(i, m, k - 1, s - 1)) -
-      (((k - 1) * (2 * m + k)) / (k * (2 * m - k + 1))) *
-        gramPoly(i, m, k - 2, s);
-  } else if (k === 0 && s === 0) {
-    Grampoly = 1;
-  } else {
-    Grampoly = 0;
-  }
-  return Grampoly;
-}
-
-function genFact(a: number, b: number): number {
-  let gf = 1;
-  if (a >= b) {
-    for (let j = a - b + 1; j <= a; j++) {
-      gf *= j;
-    }
-  }
-  return gf;
-}
-
-function weight(i: number, t: number, m: number, n: number, s: number): number {
-  let sum = 0;
-  for (let k = 0; k <= n; k++) {
-    sum +=
-      (2 * k + 1) *
-      (genFact(2 * m, k) / genFact(2 * m + k + 1, k + 1)) *
-      gramPoly(i, m, k, 0) *
-      gramPoly(t, m, k, s);
-  }
-  return sum;
-}
-
-/**
- * Compute the full weights matrix for every position inside the window.
- * @param m - Number of points.
- * @param n - Polynomial grade.
- * @param s - Derivative.
- * @returns Array of Float64Array weight vectors, one per position in the window.
- */
-function fullWeights(m: number, n: number, s: number): Float64Array[] {
-  const weights = new Array(m);
-  const np = Math.floor(m / 2);
-  for (let t = -np; t <= np; t++) {
-    weights[t + np] = new Float64Array(m);
-    for (let j = -np; j <= np; j++) {
-      weights[t + np][j + np] = weight(j, t, np, n, s);
-    }
-  }
-  return weights;
+  const first = center - half;
+  const lo = Math.max(first, 0);
+  const last = h.length - 2;
+  const end = center + half - 1;
+  const hi = Math.min(end, last);
+  const mean = (h[hi + 1] - h[lo]) / (hi - lo + 1);
+  if (derivative === 1) return mean;
+  if (derivative === 2) return mean * mean;
+  return mean ** derivative;
 }

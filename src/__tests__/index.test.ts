@@ -134,3 +134,68 @@ test('Border test', () => {
     expect(ans[j]).toBeCloseTo(3 * j ** 2 - 8 * j + 5, 6);
   }
 });
+
+test('an irregular x axis divides by the window mean spacing, at every order', () => {
+  // The spacing triples across the axis, so a window's mean spacing is not the
+  // axis's and the shortcut that reads only the window's two ends has to agree
+  // with summing across it.
+  const xs = new Array(40)
+    .fill(0)
+    .map((_, index) => index + (index * index) / 400);
+  const ys = new Array(40)
+    .fill(0)
+    .map((_, index) => Math.exp(-((index - 20) ** 2) / 18));
+
+  for (const derivative of [0, 1, 2, 3]) {
+    const result = sgg(ys, xs, { windowSize: 9, polynomial: 3, derivative });
+
+    expect(result).toHaveLength(40);
+
+    for (const value of result) expect(Number.isFinite(value)).toBe(true);
+  }
+
+  // A Gaussian's first derivative crosses zero at its apex and its second is
+  // most negative there, whatever the axis is spaced like.
+  const first = sgg(ys, xs, { windowSize: 9, polynomial: 3, derivative: 1 });
+  const second = sgg(ys, xs, { windowSize: 9, polynomial: 3, derivative: 2 });
+
+  expect(first[20]).toBeCloseTo(0, 2);
+  expect(second[20]).toBeLessThan(0);
+  expect(Math.min(...second)).toBe(second[20]);
+});
+
+test('the weight matrix is reused without being shared between shapes', () => {
+  const ys = new Array(40)
+    .fill(0)
+    .map((_, index) => Math.exp(-((index - 20) ** 2) / 18));
+  const first = sgg(ys, 1, { windowSize: 9, polynomial: 3, derivative: 1 });
+  const other = sgg(ys, 1, { windowSize: 9, polynomial: 3, derivative: 2 });
+  const again = sgg(ys, 1, { windowSize: 9, polynomial: 3, derivative: 1 });
+
+  expect(Array.from(again)).toStrictEqual(Array.from(first));
+  expect(Array.from(other)).not.toStrictEqual(Array.from(first));
+});
+
+test('more window shapes than are kept still answer correctly', () => {
+  const ys = new Array(60)
+    .fill(0)
+    .map((_, index) => Math.exp(-((index - 30) ** 2) / 18));
+
+  // One more shape than the cache holds, asked for twice round, so every slot
+  // is evicted and rebuilt at least once.
+  const shapes = [
+    { windowSize: 5, polynomial: 2, derivative: 0 },
+    { windowSize: 7, polynomial: 3, derivative: 1 },
+    { windowSize: 9, polynomial: 3, derivative: 1 },
+    { windowSize: 9, polynomial: 3, derivative: 2 },
+    { windowSize: 11, polynomial: 4, derivative: 2 },
+    { windowSize: 13, polynomial: 5, derivative: 3 },
+  ];
+  const first = shapes.map((shape) => Array.from(sgg(ys, 1, shape)));
+
+  for (let round = 0; round < 3; round++) {
+    for (let shape = 0; shape < shapes.length; shape++) {
+      expect(Array.from(sgg(ys, 1, shapes[shape]))).toStrictEqual(first[shape]);
+    }
+  }
+});
